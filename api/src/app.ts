@@ -1,5 +1,8 @@
 import express, { Application } from 'express'
 import helmet from 'helmet'
+import config from './config'
+
+config()
 
 const app: Application = express()
 
