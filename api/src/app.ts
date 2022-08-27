@@ -1,6 +1,7 @@
 import express, { Application } from 'express'
 import helmet from 'helmet'
 import config from './config'
+import router from './api/routes'
 
 config()
 
