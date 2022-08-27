@@ -9,3 +9,10 @@ services:
       - "1992:1992"
     volumes:
       - ./build:/home/node/chat_api/src:rw
+
+  db:
+    container_name: chat_db
+    image: mongo:latest
+    restart: always
+    ports:
+      - "1993:27017"
