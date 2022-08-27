@@ -8,4 +8,4 @@ services:
     ports:
       - "1992:1992"
     volumes:
-      - ./build:/home/node/chat_app/src:ro
+      - ./build:/home/node/chat_api/src:rw
