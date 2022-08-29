@@ -8,11 +8,14 @@ services:
     ports:
       - "1992:1992"
     volumes:
-      - ./build:/home/node/chat_api/src:rw
+      - ${SRC_HOST}:${SRC_CONTAINER}:rw
 
   db:
     container_name: chat_db
     image: mongo:latest
-    restart: always
+    restart: unless-stopped
     ports:
       - "1993:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASS}
