@@ -68,7 +68,7 @@ export function updateUser(userName: string, updateData:updateObject):Promise<Re
 }
 
 
-export function getUserData (userName: string): Promise<ResponseObject | IUser> {
+export function getUserData (userName: string): Promise<ResponseObject> {
   return new Promise((resolve, reject)=>{
     userModel.find({name: userName}).lean()
     .then((result)=>{
@@ -79,7 +79,7 @@ export function getUserData (userName: string): Promise<ResponseObject | IUser> 
     })
     .catch((err)=>{
       reject({
-        code: 505
+        code: 500
       })
     })
   })

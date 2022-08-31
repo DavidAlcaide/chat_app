@@ -3,14 +3,14 @@ import { Schema, LeanDocument } from 'mongoose'
 export interface IUser {
   name: string,
   mail: string,
-  reg_timestamp: number
+  reg_timestamp?: number
 }
 
 export interface IMsg {
   content: string,
   from : Schema.Types.ObjectId,
   to: Schema.Types.ObjectId,
-  timestamp: number
+  timestamp?: number
 }
 
 export interface IRoom {

@@ -5,7 +5,12 @@ import router from './api/v1/routes'
 import connectDb from './db/connectDb'
 
 config()
-connectDb()
+try{
+  connectDb()
+}catch(err:any){
+  console.log("Error:")
+  console.error(err.message)
+}
 
 const app: Application = express()
 

@@ -1,4 +1,7 @@
 import express, { Request, Response, Router } from 'express'
+import * as userControllers from './../../db/controllers/user.controllers'
+import * as msgControllers from './../../db/controllers/msg.controllers'
+import * as roomControllers from './../../db/controllers/room.controllers'
 
 const router: Router = express.Router()
 
@@ -8,13 +11,37 @@ const router: Router = express.Router()
 // Get user information
 
 router.get('/v1/user/:userName', (req: Request, resp: Response)=>{
-  
+  if(req.params.userName){
+    userControllers.getUserData(req.params.userName)
+    .then((r)=>{
+      console.log(r.result)
+      resp.statusCode = r.code
+    })
+    .catch((r)=>{
+      resp.sendStatus(r.code)
+    })
+  }else{
+    resp.sendStatus(400)
+  }
 })
 
 // Create user
 
 router.post('/v1/user', (req: Request, resp: Response)=>{
-  
+  if(req.body.name && req.body.mail){
+    userControllers.createUser({
+      name: req.body.name,
+      mail: req.body.mail
+    })
+    .then((r)=>{
+      resp.sendStatus(r.code)
+    })
+    .catch((r)=>{
+      resp.sendStatus(r.code)
+    })
+  }else{
+    resp.sendStatus(400)
+  }
 })
 
 // Delete user
