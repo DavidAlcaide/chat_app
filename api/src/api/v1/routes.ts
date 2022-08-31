@@ -97,7 +97,9 @@ router.delete('/v1/chatRoom/:chatRoomId', (req: Request, resp: Response)=>{
 })
 
 
-
+export function suma(a:number, b:number){
+  return a + b
+}
 
 
 
