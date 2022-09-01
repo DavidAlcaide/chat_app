@@ -15,7 +15,7 @@ router.get('/v1/user/:userName', (req: Request, resp: Response)=>{
     userControllers.getUserData(req.params.userName)
     .then((r)=>{
       console.log(r.result)
-      resp.statusCode = r.code
+      resp.sendStatus(r.code)
     })
     .catch((r)=>{
       resp.sendStatus(r.code)

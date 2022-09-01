@@ -14,10 +14,11 @@ const connectDb = () => {
         authMechanism: "DEFAULT"
     };
     const db_uri = `mongodb://${process.env.DB_SERVER}:${process.env.DB_PORT}`;
-    mongoose_1.default.connect(db_uri);
+    mongoose_1.default.connect(db_uri, dbOptions);
     // Control connection and error events
     mongoose_1.default.connection.on('connected', () => {
         console.log(`Connected to Database`);
+        console.log(mongoose_1.default.connection);
     });
     mongoose_1.default.connection.on('error', (error) => {
         throw new errors_1.dbInternalError(error.message);

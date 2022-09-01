@@ -19,7 +19,10 @@ function createUser(userData) {
             });
         })
             .catch((err) => {
-            reject({});
+            console.log(err.message);
+            reject({
+                code: 500
+            });
         });
     });
 }

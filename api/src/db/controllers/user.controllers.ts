@@ -16,8 +16,9 @@ export function createUser(userData: IUser): Promise<ResponseObject>{
       })
     })
     .catch((err)=>{
+      console.log(err.message)
       reject({
-
+        code: 500
       })
     })
   })

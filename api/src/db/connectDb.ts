@@ -12,11 +12,12 @@ const connectDb = ()=>{
 
   const db_uri: string = `mongodb://${process.env.DB_SERVER}:${process.env.DB_PORT}`
   
-  mongoose.connect(db_uri)
+  mongoose.connect(db_uri, dbOptions)
   // Control connection and error events
 
   mongoose.connection.on('connected', ()=>{
     console.log(`Connected to Database`)
+    console.log(mongoose.connection)
   })
   mongoose.connection.on('error', (error)=>{
     throw new dbInternalError(error.message)

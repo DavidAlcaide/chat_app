@@ -26,6 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.suma = void 0;
 const express_1 = __importDefault(require("express"));
 const userControllers = __importStar(require("./../../db/controllers/user.controllers"));
 const router = express_1.default.Router();
@@ -36,7 +37,7 @@ router.get('/v1/user/:userName', (req, resp) => {
         userControllers.getUserData(req.params.userName)
             .then((r) => {
             console.log(r.result);
-            resp.statusCode = r.code;
+            resp.sendStatus(r.code);
         })
             .catch((r) => {
             resp.sendStatus(r.code);
@@ -95,4 +96,8 @@ router.post('/v1/chatRoom', (req, resp) => {
 // Delete an existing chatroom
 router.delete('/v1/chatRoom/:chatRoomId', (req, resp) => {
 });
+function suma(a, b) {
+    return a + b;
+}
+exports.suma = suma;
 exports.default = router;
