@@ -3,8 +3,8 @@ module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: ['/node_modules/', '/build/'],
   //testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(ts)$',
-  collectCoverage: true,
+  collectCoverage: false,
   verbose: true,
   collectCoverageFrom: ['src/**/*.ts'],
-  //setupFilesAfterEnv: ['./jest.setup.js']
+  //setupFilesAfterEnv: ['./jest.setup.js'],
 };

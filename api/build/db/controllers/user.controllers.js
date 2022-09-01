@@ -15,7 +15,7 @@ function createUser(userData) {
         user.save()
             .then(() => {
             resolve({
-                code: 202
+                code: 200
             });
         })
             .catch((err) => {
@@ -33,7 +33,7 @@ function deleteUser(userName) {
         users_model_1.default.findOneAndDelete({ name: userName }).exec()
             .then(() => {
             resolve({
-                code: 202
+                code: 200
             });
         })
             .catch((err) => {
@@ -56,7 +56,7 @@ function updateUser(userName, updateData) {
             }]).exec()
             .then((result) => {
             resolve({
-                code: 202
+                code: 200
             });
         })
             .catch((err) => {
@@ -71,10 +71,17 @@ function getUserData(userName) {
     return new Promise((resolve, reject) => {
         users_model_1.default.find({ name: userName }).lean()
             .then((result) => {
-            resolve({
-                result: result,
-                code: 202
-            });
+            if (result.length != 1) {
+                resolve({
+                    code: 404
+                });
+            }
+            else {
+                resolve({
+                    result: result,
+                    code: 200
+                });
+            }
         })
             .catch((err) => {
             reject({

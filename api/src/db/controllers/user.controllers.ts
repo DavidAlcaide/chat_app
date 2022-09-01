@@ -12,7 +12,7 @@ export function createUser(userData: IUser): Promise<ResponseObject>{
     user.save()
     .then(()=>{
       resolve({
-        code: 202
+        code: 200
       })
     })
     .catch((err)=>{
@@ -30,7 +30,7 @@ export function deleteUser (userName:string):Promise<ResponseObject>{
     userModel.findOneAndDelete({name: userName}).exec()
     .then(()=>{
       resolve({
-        code: 202
+        code: 200
       })
     })
     .catch((err)=>{
@@ -57,7 +57,7 @@ export function updateUser(userName: string, updateData:updateObject):Promise<Re
     }]).exec()
     .then((result)=>{
       resolve({
-        code: 202
+        code: 200
       })
     })
     .catch((err)=>{
@@ -73,10 +73,16 @@ export function getUserData (userName: string): Promise<ResponseObject> {
   return new Promise((resolve, reject)=>{
     userModel.find({name: userName}).lean()
     .then((result)=>{
-      resolve({
-        result: result,
-        code: 202
-      })
+      if (result.length != 1){
+        resolve({
+          code: 404
+        })
+      }else{
+        resolve({
+          result: result,
+          code: 200
+        })
+      }
     })
     .catch((err)=>{
       reject({

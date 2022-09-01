@@ -9,7 +9,7 @@ export function getMsgsByRoom(chatRoomId: string): Promise<ResponseObject>{
   roomModel.find({_id: new mongoose.Types.ObjectId(chatRoomId)}).populate('msgs').lean() //TODO: Check if this populate command works or we have to do that by using aggregations
   .then((results)=>{
       resolve({
-        code: 202,
+        code: 200,
         result: results
       })
     })
@@ -27,7 +27,7 @@ export function createChatRoom(roomObject: IRoom): Promise<ResponseObject>{
     let _room = new roomModel(roomObject).save()
     .then((r)=>{
       resolve({
-        code: 202
+        code: 200
       })
     })
     .catch((err)=>{
@@ -50,7 +50,7 @@ export async function deleteChatRoom (chatRoomId: string): Promise<ResponseObjec
       })
 
       return {
-        code: 202
+        code: 200
       }
 
       // TODO: Check if this function works with

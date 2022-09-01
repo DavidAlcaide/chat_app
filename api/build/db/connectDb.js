@@ -18,7 +18,6 @@ const connectDb = () => {
     // Control connection and error events
     mongoose_1.default.connection.on('connected', () => {
         console.log(`Connected to Database`);
-        console.log(mongoose_1.default.connection);
     });
     mongoose_1.default.connection.on('error', (error) => {
         throw new errors_1.dbInternalError(error.message);

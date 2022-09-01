@@ -36,8 +36,8 @@ router.get('/v1/user/:userName', (req, resp) => {
     if (req.params.userName) {
         userControllers.getUserData(req.params.userName)
             .then((r) => {
-            console.log(r.result);
-            resp.sendStatus(r.code);
+            resp.status(200);
+            resp.json(r.result);
         })
             .catch((r) => {
             resp.sendStatus(r.code);

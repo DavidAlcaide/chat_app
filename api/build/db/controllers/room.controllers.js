@@ -13,7 +13,7 @@ function getMsgsByRoom(chatRoomId) {
         rooms_model_1.default.find({ _id: new mongoose_1.default.Types.ObjectId(chatRoomId) }).populate('msgs').lean() //TODO: Check if this populate command works or we have to do that by using aggregations
             .then((results) => {
             resolve({
-                code: 202,
+                code: 200,
                 result: results
             });
         })
@@ -31,7 +31,7 @@ function createChatRoom(roomObject) {
         let _room = new rooms_model_1.default(roomObject).save()
             .then((r) => {
             resolve({
-                code: 202
+                code: 200
             });
         })
             .catch((err) => {
@@ -52,7 +52,7 @@ async function deleteChatRoom(chatRoomId) {
             $in: ["_id", _room]
         });
         return {
-            code: 202
+            code: 200
         };
         // TODO: Check if this function works with
     }

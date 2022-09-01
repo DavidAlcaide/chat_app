@@ -1,9 +1,13 @@
-import axios from 'axios'
 import { IUser } from '../../src/db/interfaces'
+import supertest from 'supertest'
+import app  from './../../src/app'
+import mongoose from 'mongoose'
 import userModel from '../../src/db/models/users.model'
-import * as controllers from './../../src/db/controllers/user.controllers'
 
-const usersMocked: IUser[] = [
+const api = supertest(app)
+
+
+const mockedUsers: IUser[] = [
   {
     name: "nombreUsuario1",
     mail: "nombreUsuario1@gmail.com",
@@ -19,13 +23,36 @@ const usersMocked: IUser[] = [
   }
 ]
 
-
-
 describe('GET /vx/user', ()=>{
 
-  test('Should return statusCode equal to 200', async ()=>{
-    let r = await axios.get('http://127.0.0.1:1992/v1/user/nombreUsuario1')
-    console.log(r)
-    expect(r.status).toBe(200)
+  beforeAll(async()=>{
+    // Remove actual database state
+    await userModel.deleteMany({})
+
+    // Create documents only for testing
+
+    mockedUsers.forEach(async (user)=>{
+      let _user = new userModel(user)
+      await _user.save()
+    })
+
+  })
+
+  afterAll( ()=>{
+    mongoose.connection.close()
+  })
+
+  test('get correct status code and response type', async ()=>{
+   const r = await api.get(`/v1/user/${mockedUsers[0].name}`)
+
+   expect(r.statusCode).toBe(200)
+
+   expect(r.headers['content-type']).toMatch(/application\/json/)
+    
+  })
+
+  test('obtaining correct data in terms of structure and quantity', async ()=>{
+    const r = await api.get(`/v1/user/${mockedUsers[0]}`)
+    expect(r.body).toBeInstanceOf(undefined)
   })
 })

@@ -17,7 +17,6 @@ const connectDb = ()=>{
 
   mongoose.connection.on('connected', ()=>{
     console.log(`Connected to Database`)
-    console.log(mongoose.connection)
   })
   mongoose.connection.on('error', (error)=>{
     throw new dbInternalError(error.message)

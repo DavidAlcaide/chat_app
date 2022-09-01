@@ -23,7 +23,7 @@ export function getMsgsByUser (userName: string): Promise<ResponseObject> {
     .then((results)=>{
       resolve({
         result: results,
-        code: 202
+        code: 200
       })
     })
     .catch()

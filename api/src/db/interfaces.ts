@@ -29,7 +29,7 @@ export interface ResponseObject {
   code: ResponseCode
 }
 
-type ResponseCode = 202 | 303 | 404 | 505;
+type ResponseCode = 200 | 303 | 404 | 505;
 
 export interface updateObject {
   [index: string] : any 

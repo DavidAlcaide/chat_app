@@ -27,7 +27,7 @@ function getMsgsByUser(userName) {
             .then((results) => {
             resolve({
                 result: results,
-                code: 202
+                code: 200
             });
         })
             .catch();
