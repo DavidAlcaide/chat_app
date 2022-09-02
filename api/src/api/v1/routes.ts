@@ -14,7 +14,7 @@ router.get('/v1/user/:userName', (req: Request, resp: Response)=>{
   if(req.params.userName){
     userControllers.getUserData(req.params.userName)
     .then((r)=>{
-      resp.status(200)
+      resp.status(r.code)
       resp.json(r.result)
     })
     .catch((r)=>{
@@ -46,12 +46,23 @@ router.post('/v1/user', (req: Request, resp: Response)=>{
 
 // Delete user
 router.delete('/v1/user/:userName', (req: Request, resp: Response)=>{
-  
+  userControllers.deleteUser(req.params.userName)
+    .then((r)=>{
+      resp.sendStatus(r.code)
+    })
+    .catch((r)=>{
+      resp.sendStatus(r.code)
+    })
 })
 
 // Update existing user
-router.put('/v1/user/:userName', (req: Request, resp: Response)=>{
-  
+router.put('/v1/user', (req: Request, resp: Response)=>{
+  if(req.body.name && Object.keys(req.body).length != 1){
+    resp.sendStatus(200)
+  }else{
+    console.log(req.body)
+    resp.sendStatus(400)
+  }
 })
 
 

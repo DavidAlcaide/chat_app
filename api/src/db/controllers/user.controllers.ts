@@ -16,7 +16,6 @@ export function createUser(userData: IUser): Promise<ResponseObject>{
       })
     })
     .catch((err)=>{
-      console.log(err.message)
       reject({
         code: 500
       })
@@ -28,14 +27,23 @@ export function deleteUser (userName:string):Promise<ResponseObject>{
   return new Promise((resolve, reject)=>{
     // Delete user from users collection
     userModel.findOneAndDelete({name: userName}).exec()
-    .then(()=>{
-      resolve({
-        code: 200
-      })
+    .then((r)=>{
+      if(r){
+        // User to be deleted exists and process is ok
+        resolve({
+          code: 200
+        })
+      }else{
+        // User to be deleted does not exist
+        resolve({
+          result: null,
+          code: 202
+        })
+      }
     })
     .catch((err)=>{
       reject({
-        code: 505
+        code: 500
       })
     })
 
@@ -71,16 +79,17 @@ export function updateUser(userName: string, updateData:updateObject):Promise<Re
 
 export function getUserData (userName: string): Promise<ResponseObject> {
   return new Promise((resolve, reject)=>{
-    userModel.find({name: userName}).lean()
+    userModel.findOne({name: userName}).exec()
     .then((result)=>{
-      if (result.length != 1){
+      if(result){
         resolve({
-          code: 404
+          code: 200,
+          result: result
         })
       }else{
         resolve({
-          result: result,
-          code: 200
+          code: 204,
+          result: null
         })
       }
     })

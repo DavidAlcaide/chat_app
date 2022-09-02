@@ -19,7 +19,6 @@ function createUser(userData) {
             });
         })
             .catch((err) => {
-            console.log(err.message);
             reject({
                 code: 500
             });
@@ -31,14 +30,27 @@ function deleteUser(userName) {
     return new Promise((resolve, reject) => {
         // Delete user from users collection
         users_model_1.default.findOneAndDelete({ name: userName }).exec()
-            .then(() => {
+            .then((r) => {
+            if (r) {
+                // User to be deleted exists and process is ok
+                resolve({
+                    code: 200
+                });
+            }
+            else {
+                // User to be deleted does not exist
+                resolve({
+                    result: null,
+                    code: 202
+                });
+            }
             resolve({
                 code: 200
             });
         })
             .catch((err) => {
             reject({
-                code: 505
+                code: 500
             });
         });
         // TODO: Implement cascade logic when we are deleting users -> Theoreticaly, when we remove a user we have to close, or something like that, chat rooms composed by two people (this user and other person)
@@ -69,17 +81,18 @@ function updateUser(userName, updateData) {
 exports.updateUser = updateUser;
 function getUserData(userName) {
     return new Promise((resolve, reject) => {
-        users_model_1.default.find({ name: userName }).lean()
+        users_model_1.default.findOne({ name: userName }).exec()
             .then((result) => {
-            if (result.length != 1) {
+            if (result) {
                 resolve({
-                    code: 404
+                    code: 200,
+                    result: result
                 });
             }
             else {
                 resolve({
-                    result: result,
-                    code: 200
+                    code: 204,
+                    result: null
                 });
             }
         })

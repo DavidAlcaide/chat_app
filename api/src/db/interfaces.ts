@@ -1,4 +1,5 @@
 import { Schema, LeanDocument } from 'mongoose'
+import { Response } from 'express'
 
 export interface IUser {
   name: string,
@@ -25,11 +26,10 @@ export interface ResponseObject {
                     LeanDocument<IMsg & any> |
                     LeanDocument<IRoom & any> |
                     Array<LeanDocument<IMsg & any> | 
-                    IRoom & any>,
-  code: ResponseCode
+                    IRoom & any> |
+                    null,
+  code: number
 }
-
-type ResponseCode = 200 | 303 | 404 | 505;
 
 export interface updateObject {
   [index: string] : any 

@@ -36,7 +36,7 @@ router.get('/v1/user/:userName', (req, resp) => {
     if (req.params.userName) {
         userControllers.getUserData(req.params.userName)
             .then((r) => {
-            resp.status(200);
+            resp.status(r.code);
             resp.json(r.result);
         })
             .catch((r) => {
@@ -67,6 +67,18 @@ router.post('/v1/user', (req, resp) => {
 });
 // Delete user
 router.delete('/v1/user/:userName', (req, resp) => {
+    if (req.params.userName) {
+        userControllers.deleteUser(req.params.userName)
+            .then((r) => {
+            resp.sendStatus(r.code);
+        })
+            .catch((r) => {
+            resp.sendStatus(r.code);
+        });
+    }
+    else {
+        resp.sendStatus(400);
+    }
 });
 // Update existing user
 router.put('/v1/user/:userName', (req, resp) => {
