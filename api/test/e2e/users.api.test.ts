@@ -95,13 +95,46 @@ describe('Users end-points', ()=>{
     })
   })
 
-  describe('DELETE /vx/user', ()=>{
+  describe('PUT /vx/user', ()=>{
+    let r: any
+    let _r: any
+    let __r: any
+
+    beforeAll(async ()=>{
+      r = await api.put(`/v1/user/${mockedUsers[0].name}`).send({
+        "name": `${mockedUsers[0].name}`,
+        "mail": 'nuevomailUsuario@gmail.com'
+      })
+      _r = await api.put('/v1/user/usuarioNoExistente').send({
+        name: mockedUsers[0].name,
+        mail: 'nuevomailUsuario@gmail.com'
+      })
+      __r = await api.put(`/v1/user/${mockedUsers[0].name}`).send({})
+    })
+
+    test('get correct status code when user is updated', ()=>{
+      expect(r.statusCode).toBe(200)
+    })
+    test('get correct status code when user to update does not exist', ()=>{
+      expect(_r.statusCode).toBe(202)
+    })
+    test('get correct status code when no data is being sent', ()=>{
+      expect(__r.statusCode).toBe(400)
+    })
+
+    test('check if user data have been updated successfully', async ()=>{
+      let _ = await userModel.findOne({name: mockedUsers[0].name})
+      _ ? expect(_.mail).toContain('nuevomailUsuario@gmail.com') : ""
+    })
+  })
+
+  describe.skip('DELETE /vx/user', ()=>{
     let r: any
     let _r: any
     let __r: any
 
     beforeAll(async()=>{
-      r = await api.delete(`/v1/user/${mockedUsers[0].name}`)
+      r = await api.delete(`/v1/user/${mockedUsers[mockedUsers.length - 1].name}`)
       _r = await api.delete(`/v1/user/usuarioNoExistente`)
       __r = await api.delete(`/v1/user`)
     })
@@ -112,21 +145,8 @@ describe('Users end-points', ()=>{
     test('get correct status code when user does not exists', ()=>{
       expect(_r.statusCode).toBe(202)
     })
-    test('get correct status when request body is incomplete ', ()=>{
+    test('get correct status code when request body is incomplete ', ()=>{
       expect(__r.statusCode).toBe(404)
-    })
-  })
-
-  describe('PUT /vx/user', ()=>{
-    let r: any
-    let _r: any
-    let __r: any
-
-    beforeAll(async ()=>{
-      r = await api.put('/v1/user').send({
-        name: mockedUsers[0].name,
-        mail: 'nuevomailUsurio@gmail.com'
-      })
     })
   })
 

@@ -1,4 +1,4 @@
-import express, { Request, Response, Router } from 'express'
+import express, { Request, response, Response, Router } from 'express'
 import * as userControllers from './../../db/controllers/user.controllers'
 import * as msgControllers from './../../db/controllers/msg.controllers'
 import * as roomControllers from './../../db/controllers/room.controllers'
@@ -56,11 +56,21 @@ router.delete('/v1/user/:userName', (req: Request, resp: Response)=>{
 })
 
 // Update existing user
-router.put('/v1/user', (req: Request, resp: Response)=>{
-  if(req.body.name && Object.keys(req.body).length != 1){
-    resp.sendStatus(200)
+router.put('/v1/user/:userName', (req: Request, resp: Response)=>{
+  if(req.params.userName && Object.keys(req.body).length >= 1){
+    userControllers.updateUser(req.params.userName, req.body)
+    .then((r)=>{
+      if(r.result){
+        resp.status(r.code)
+        resp.send(r.result)
+      }else{
+        resp.sendStatus(202)
+      }
+    })
+    .catch((r)=>{
+      resp.sendStatus(r.code)
+    })
   }else{
-    console.log(req.body)
     resp.sendStatus(400)
   }
 })

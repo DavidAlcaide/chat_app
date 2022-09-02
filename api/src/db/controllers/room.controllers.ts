@@ -62,3 +62,7 @@ export async function deleteChatRoom (chatRoomId: string): Promise<ResponseObjec
       }
     }
 }
+
+export function createMsg(msg_content: IMsg){
+
+}

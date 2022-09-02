@@ -56,21 +56,21 @@ export function deleteUser (userName:string):Promise<ResponseObject>{
 
 export function updateUser(userName: string, updateData:updateObject):Promise<ResponseObject>{
   return new Promise((resolve, reject)=>{
-    userModel.aggregate([{
-      $match:{
-        name: userName
+    userModel.findOneAndUpdate({name: userName}, updateData).exec()
+    .then((r)=>{
+      console.log(r)
+      if(r){
+        resolve({
+          result: r,
+          code: 200
+        })
+      }else{
+        resolve({code: 202})
       }
-    },{
-      $set: updateData
-    }]).exec()
-    .then((result)=>{
-      resolve({
-        code: 200
-      })
     })
     .catch((err)=>{
       reject({
-        code: 505
+        code: 500
       })
     })
   })
