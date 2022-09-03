@@ -58,7 +58,6 @@ export function updateUser(userName: string, updateData:updateObject):Promise<Re
   return new Promise((resolve, reject)=>{
     userModel.findOneAndUpdate({name: userName}, updateData).exec()
     .then((r)=>{
-      console.log(r)
       if(r){
         resolve({
           result: r,
