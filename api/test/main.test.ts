@@ -25,7 +25,7 @@ let usersData: IUser[] = [
 ]
 
 
-beforeAll(async ()=>{
+beforeAll( async()=>{
 
   await userModel.deleteMany({})
 
@@ -34,7 +34,7 @@ beforeAll(async ()=>{
     await _.save()
   })
 
-})
+}, 15000)
 
 
 describe('E2E api testing', ()=>{
